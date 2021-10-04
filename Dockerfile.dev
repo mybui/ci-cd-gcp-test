@@ -1,0 +1,37 @@
+# Use an official lightweight Python image.
+# https://hub.docker.com/_/python
+FROM python:3.9-slim
+
+# set the working directory in the container
+WORKDIR /app
+
+# copy the dependencies file to the working directory
+COPY src/requirements.txt ./
+
+# set port
+ARG PORT
+ENV PORT ${PORT}
+
+# logging
+ARG LOG
+ENV LOG ${LOG}
+
+# Bitbucket app-password for to pull from private IDBBN repo
+ARG BIT_USER
+ENV BIT_USER ${BIT_USER}
+
+ARG BIT_APP_PASS
+ENV BIT_APP_PASS ${BIT_APP_PASS}
+
+# BigQuery Connect
+ARG GOOGLE_APPLICATION_CREDENTIALS
+ENV GOOGLE_APPLICATION_CREDENTIALS ${GOOGLE_APPLICATION_CREDENTIALS}
+ARG GOOGLE_CLOUD_PROJECT
+ENV GOOGLE_CLOUD_PROJECT ${GOOGLE_CLOUD_PROJECT}
+ARG GOOGLE_CLOUD_DATASET
+ENV GOOGLE_CLOUD_DATASET ${GOOGLE_CLOUD_DATASET}
+
+# install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD exec gunicorn --bind :$PORT  --reload --workers 1 --threads 8 --timeout 0 app:app
