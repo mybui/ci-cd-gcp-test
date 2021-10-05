@@ -8,13 +8,6 @@ WORKDIR /app
 # copy the content of the local src directory to the working directory
 COPY src /app
 
-# Bitbucket app password for to pull from private IDBBN repo
-ARG BIT_USER
-ENV BIT_USER ${BIT_USER}
-
-ARG BIT_APP_PASS
-ENV BIT_APP_PASS ${BIT_APP_PASS}
-
 # install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 

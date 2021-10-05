@@ -24,3 +24,5 @@ docs/_build/
 src/debug.log
 credentials
 debug.log
+Dockerfile.dev
+docker-compose.yml
